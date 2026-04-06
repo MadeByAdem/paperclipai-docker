@@ -33,6 +33,7 @@
 - [✅ Prerequisites](#-prerequisites)
 - [🚀 Installation](#-installation)
 - [🏗 Architecture](#-architecture)
+- [🛠 Configuring Your Instance](#-configuring-your-instance)
 - [🌐 Connecting a Reverse Proxy](#-connecting-a-reverse-proxy)
 - [🔐 Environment Variables](#-environment-variables)
 - [⚙️ Managing Your Server](#️-managing-your-server)
@@ -231,6 +232,75 @@ This generates an invite URL. Open it in your browser to create your admin accou
 > ```bash
 > docker compose restart server
 > ```
+
+### 🛠 Configuring Your Instance
+
+Once Paperclip is running and you've created your admin account, configure it in this order:
+
+#### 1. Set Your Goals
+
+Goals are the highest-level objectives — every project, task, and agent action traces back to a goal. Define what your AI company is working toward before anything else.
+
+> **Example:** Create a goal like "Launch MVP by Q3" or "Reduce API response time below 200ms". All projects and agent work will align to these goals.
+
+#### 2. Define Your Projects
+
+Projects sit under goals and group related tasks toward a deliverable. Each project links to a Git repository workspace where agents will operate.
+
+> **Example:** Under your "Launch MVP" goal, create a project called "Backend API" pointed at your `github.com/org/api` repo, branch `main`.
+
+#### 3. Connect External Services
+
+Link the platforms your agents need to interact with — GitHub for code, Linear for issue tracking, Slack for notifications, etc. Agents access these through injected credentials.
+
+> **Example:** Add your GitHub token so agents can open pull requests and push code on your behalf.
+
+#### 4. Set Up Service Accounts
+
+Create dedicated agent API keys so each agent has its own identity when authenticating against Paperclip and connected services.
+
+> **Example:** Generate an API key for your "Senior Engineer" agent via the Agents dashboard — store it securely, it's shown only once.
+
+#### 5. Configure Secrets
+
+Store API keys and tokens that agents need at runtime. Secrets are encrypted at rest and automatically redacted from logs.
+
+> **Example:** Add your `ANTHROPIC_API_KEY` as a secret, then reference it in your agent's adapter config:
+> ```json
+> {
+>   "env": {
+>     "ANTHROPIC_API_KEY": {
+>       "type": "secret_ref",
+>       "secretId": "<your-secret-id>",
+>       "version": "latest"
+>     }
+>   }
+> }
+> ```
+
+#### 6. Install Skills
+
+Skills are reusable workflow instructions (Markdown files) that tell agents *how* to perform specific tasks — no retraining needed. Import community skill packs or write your own.
+
+> **Example:** Import the GStack engineering skill pack:
+> ```bash
+> npx companies.sh add paperclipai/companies/gstack
+> ```
+> This adds skills like `review`, `ship`, `qa`, `investigate`, and `land-and-deploy`.
+
+#### 7. Configure Routines
+
+Routines are recurring or trigger-based workflows that agents execute autonomously — think cron jobs for your AI workforce.
+
+> **Example:** Set up a daily security scan routine that runs every morning at 09:00 UTC, or a routine that triggers whenever a new issue is assigned.
+
+#### 8. Set Budgets
+
+Control spending with monthly limits per company and per agent. Agents get a soft warning at 80% and are auto-paused at 100%.
+
+> **Example:** Set a $50/month budget on your "Junior Dev" agent to keep costs predictable while it ramps up.
+
+---
 
 ### 🌐 Next step — Connect a reverse proxy
 

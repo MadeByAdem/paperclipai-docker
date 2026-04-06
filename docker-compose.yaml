@@ -13,7 +13,7 @@ services:
       timeout: 5s
       retries: 30
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     # ── Hardening ──
     cap_drop:
       - ALL
@@ -53,7 +53,7 @@ services:
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
     volumes:
-      - paperclip-data:/paperclip
+      - ./data/paperclip:/paperclip
     depends_on:
       db:
         condition: service_healthy
@@ -77,6 +77,3 @@ networks:
   paperclip:
     driver: bridge
 
-volumes:
-  pgdata:
-  paperclip-data:
