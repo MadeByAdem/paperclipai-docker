@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Environment (secrets)
+.env
+
+# Documentation
+README.md
+LICENSE
+CLAUDE.md
+SECURITY.md
+assets/
+
+# Claude Code
+.claude/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data
+data/
+*.log

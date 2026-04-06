@@ -1,0 +1,21 @@
+# Environment
+.env
+
+# Claude Code
+.claude/
+
+# Docker
+data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
