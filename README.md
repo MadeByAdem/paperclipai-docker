@@ -162,8 +162,9 @@ Edit `.env` and fill in:
 
 | Variable | What to do |
 | -------- | ---------- |
-| 🔑 `BETTER_AUTH_SECRET` | Paste the generated secret |
+| 🔑 `BETTER_AUTH_SECRET` | Paste the generated secret (`openssl rand -hex 32`) |
 | 🌍 `PAPERCLIP_PUBLIC_URL` | Set to your domain (e.g. `https://paperclip.example.com`) |
+| 🗄️ `POSTGRES_PASSWORD` | Generate a database password (`openssl rand -hex 16`) |
 
 #### Step 3 — 🐳 Deploy
 
@@ -199,13 +200,7 @@ Choose **Advanced setup** and use these recommended values:
 
 | Prompt | Recommended value |
 | ------ | ----------------- |
-| Database mode | Embedded PostgreSQL (managed locally) |
-| Data directory | `/paperclip/instances/default/db` |
-| PostgreSQL port | `54329` |
-| Automatic backups | Yes |
-| Backup directory | `/paperclip/instances/default/data/backups` |
-| Backup interval | `60` minutes |
-| Backup retention | `30` days |
+| Database mode | External PostgreSQL (Docker Compose already provides one) |
 | LLM provider | Claude (Anthropic) — or your preferred provider |
 | Logging mode | File-based logging |
 | Log directory | `/paperclip/instances/default/logs` |
@@ -216,6 +211,9 @@ Choose **Advanced setup** and use these recommended values:
 | Allowed hostnames | Your domain (e.g. `paperclip.example.com`) |
 | Storage provider | Local disk |
 | Storage directory | `/paperclip/instances/default/data/storage` |
+
+> [!IMPORTANT]
+> Select **External PostgreSQL** — the `docker-compose.yaml` already runs a PostgreSQL 17 container. Selecting "Embedded" would create a second, conflicting database inside the server container.
 
 When prompted to start Paperclip, choose **Yes**.
 
@@ -329,7 +327,7 @@ server {
 | -------- | :------: | ------- | ----------- |
 | 🔑 `BETTER_AUTH_SECRET` | ✅ | — | Auth secret. Generate with `openssl rand -hex 32` |
 | 🌍 `PAPERCLIP_PUBLIC_URL` | ✅ | — | Public URL (e.g. `https://paperclip.example.com`) |
-| 🗄️ `POSTGRES_PASSWORD` | | `paperclip` | PostgreSQL password |
+| 🗄️ `POSTGRES_PASSWORD` | ✅ | — | PostgreSQL password. Generate with `openssl rand -hex 16` |
 | 🟣 `ANTHROPIC_API_KEY` | | — | API key for Claude agent adapter |
 | 🟢 `OPENAI_API_KEY` | | — | API key for Codex agent adapter |
 
@@ -367,9 +365,9 @@ All data lives in Docker volumes — survives restarts, `down`, and rebuilds.
 # Database
 docker compose exec db pg_dump -U paperclip paperclip > backup.sql
 
-# Application data
-docker run --rm -v paperclip-docker_paperclip-data:/data -v $(pwd):/backup \
-  alpine tar czf /backup/paperclip-data.tar.gz -C /data .
+# Application data (volume name = <directory>_paperclip-data)
+docker compose run --rm -v $(pwd):/backup server \
+  tar czf /backup/paperclip-data.tar.gz -C /paperclip .
 ```
 
 <br/>
@@ -385,8 +383,8 @@ docker run --rm -v paperclip-docker_paperclip-data:/data -v $(pwd):/backup \
 docker compose exec -T db psql -U paperclip paperclip < backup.sql
 
 # Application data
-docker run --rm -v paperclip-docker_paperclip-data:/data -v $(pwd):/backup \
-  alpine tar xzf /backup/paperclip-data.tar.gz -C /data
+docker compose run --rm -v $(pwd):/backup server \
+  tar xzf /backup/paperclip-data.tar.gz -C /paperclip
 ```
 
 <br/>

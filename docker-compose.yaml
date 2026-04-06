@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: paperclip
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-paperclip}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: paperclip
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U paperclip -d paperclip"]
@@ -40,7 +40,7 @@ services:
     ports:
       - "127.0.0.1:3100:3100"
     environment:
-      DATABASE_URL: postgres://paperclip:${POSTGRES_PASSWORD:-paperclip}@db:5432/paperclip
+      DATABASE_URL: postgres://paperclip:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/paperclip
       PORT: "3100"
       HOST: "0.0.0.0"
       SERVE_UI: "true"
