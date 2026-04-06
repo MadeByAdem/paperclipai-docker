@@ -185,6 +185,55 @@ You should see log output indicating the server is active. Press `Ctrl+C` to sto
 <br/>
 </details>
 
+### 🎬 First Run — Instance Setup
+
+After the containers are running, you need to onboard your Paperclip instance and create the first admin account.
+
+#### Step 1 — Run the onboard wizard
+
+```bash
+docker exec -it paperclipai-server-1 pnpm paperclipai onboard
+```
+
+Choose **Advanced setup** and use these recommended values:
+
+| Prompt | Recommended value |
+| ------ | ----------------- |
+| Database mode | Embedded PostgreSQL (managed locally) |
+| Data directory | `/paperclip/instances/default/db` |
+| PostgreSQL port | `54329` |
+| Automatic backups | Yes |
+| Backup directory | `/paperclip/instances/default/data/backups` |
+| Backup interval | `60` minutes |
+| Backup retention | `30` days |
+| LLM provider | Claude (Anthropic) — or your preferred provider |
+| Logging mode | File-based logging |
+| Log directory | `/paperclip/instances/default/logs` |
+| Deployment mode | Authenticated |
+| Exposure profile | Private network |
+| Bind host | `0.0.0.0` |
+| Server port | `3100` |
+| Allowed hostnames | Your domain (e.g. `paperclip.example.com`) |
+| Storage provider | Local disk |
+| Storage directory | `/paperclip/instances/default/data/storage` |
+
+When prompted to start Paperclip, choose **Yes**.
+
+#### Step 2 — Create the first admin account
+
+```bash
+docker exec -it paperclipai-server-1 pnpm paperclipai auth bootstrap-ceo
+```
+
+This generates an invite URL. Open it in your browser to create your admin account.
+
+> [!NOTE]
+> After onboarding, restart the server to pick up the new config:
+>
+> ```bash
+> docker compose restart server
+> ```
+
 ### 🌐 Next step — Connect a reverse proxy
 
 See [🌐 Connecting a Reverse Proxy](#-connecting-a-reverse-proxy) below.

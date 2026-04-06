@@ -14,10 +14,15 @@ services:
       retries: 30
     volumes:
       - pgdata:/var/lib/postgresql/data
-    # ── Hardening (database has no reason for elevated access) ──
-    read_only: true
+    # ── Hardening ──
     cap_drop:
       - ALL
+    cap_add:
+      - CHOWN
+      - FOWNER
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
     security_opt:
       - no-new-privileges:true
     tmpfs:
