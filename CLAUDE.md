@@ -3,7 +3,7 @@
 ## Project
 
 Paperclip — Self-hosted deployment via Docker with PostgreSQL and Cloudflare Tunnel.
-Source: https://github.com/paperclipai/paperclip
+Source: https://github.com/MadeByAdem/paperclipai-docker
 
 ## Build & Run
 

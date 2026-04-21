@@ -13,9 +13,9 @@
 <p align="center">
   <a href="https://paperclip.ing"><img src="https://img.shields.io/badge/🌐%20paperclip.ing-official%20site-8B5CF6.svg" alt="Official Site" /></a>
   <a href="https://github.com/paperclipai/paperclip"><img src="https://img.shields.io/badge/📦%20upstream-paperclipai%2Fpaperclip-6D28D9.svg?logo=github&logoColor=white" alt="Upstream Repo" /></a>
-  <a href="https://github.com/MadeByAdem/paperclip/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
+  <a href="https://github.com/MadeByAdem/paperclipai-docker/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
   <img src="https://img.shields.io/badge/docker-compose%20v2-2496ED.svg?logo=docker&logoColor=white" alt="Docker Compose" />
-  <a href="https://github.com/paperclipai/paperclip"><img src="https://img.shields.io/github/stars/paperclipai/paperclip?style=flat&label=⭐%20paperclip%20stars" alt="Stars" /></a>
+  <a href="https://github.com/paperclipai/paperclip"><img src="https://img.shields.io/github/stars/paperclipai/paperclip?style=flat&logo=github&label=paperclip%20stars" alt="Stars" /></a>
 </p>
 
 ---
@@ -118,8 +118,8 @@ Both commands should print a version number without errors.
 ### Option A — ⚡ Automated setup (recommended)
 
 ```bash
-git clone https://github.com/MadeByAdem/paperclip.git
-cd paperclip
+git clone https://github.com/MadeByAdem/paperclipai-docker.git
+cd paperclipai-docker
 chmod +x setup.sh
 ./setup.sh
 ```
@@ -143,8 +143,8 @@ After setup, edit `.env` and set `PAPERCLIP_PUBLIC_URL` to your domain.
 #### Step 1 — 📥 Clone this repository
 
 ```bash
-git clone https://github.com/MadeByAdem/paperclip.git
-cd paperclip
+git clone https://github.com/MadeByAdem/paperclipai-docker.git
+cd paperclipai-docker
 ```
 
 #### Step 2 — 🔧 Configure environment
